@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html class="dark" lang="bn">
+<head>
+  <script>
+    // Enforce trailing slash for correct relative path resolution
+    if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+      window.location.pathname += '/';
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>অ্যাডমিন প্যানেল - সত্য নারায়ণ সেলুন</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+Bengali:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
+  <style>
+    body {
+      font-family: 'Montserrat', 'Noto Serif Bengali', sans-serif;
+    }
+    .font-cinzel {
+      font-family: 'Cinzel', serif;
+    }
+    .glass-panel {
+      background: rgba(22, 21, 21, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(212, 175, 55, 0.12);
+    }
+    .text-gradient-gold {
+      background: linear-gradient(135deg, #F5E396 0%, #D4AF37 50%, #AA8222 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .bg-gradient-gold {
+      background: linear-gradient(135deg, #E6C655 0%, #D4AF37 50%, #AA8222 100%);
+    }
+    .gold-glow {
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.08);
+    }
+    .admin-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .admin-scroll::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.01);
+    }
+    .admin-scroll::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.2);
+      border-radius: 4px;
+    }
+    .admin-scroll::-webkit-scrollbar-thumb:hover {
+      background: rgba(212, 175, 55, 0.4);
+    }
+  </style>
+  
+  <!-- Supabase client and configs -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../.env.js"></script>
+  <script src="../supabase-client.js"></script>
+</head>
+<body class="bg-[#0f0e0e] text-[#f0edea] selection:bg-gold-500/30 selection:text-white antialiased min-h-screen flex flex-col admin-scroll">
+
+  <!-- Header -->
+  <header class="border-b border-white/5 bg-[#161515]/80 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a class="font-cinzel text-xl md:text-2xl text-gradient-gold font-bold tracking-wider" href="../index.html">
+          SATYA NARAYAN
+        </a>
+        <span class="bg-gold-500/10 text-gold-400 border border-gold-500/20 text-[10px] font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+          অ্যাডমিন
+        </span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="../index.html" class="text-xs text-stone-400 hover:text-gold-400 transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">home</span> মূল সাইট
+        </a>
+        <button id="btn-admin-logout" class="hidden text-xs bg-red-950/30 hover:bg-red-900/40 border border-red-500/20 text-red-400 px-3 py-1.5 rounded-lg transition-all">
+          লগআউট
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full relative">
+
+    <!-- 1. LOGIN SCREEN -->
+    <div id="admin-login-screen" class="absolute inset-0 bg-[#0f0e0e]/95 backdrop-blur-sm z-50 flex items-center justify-center p-4 min-h-[500px]">
+      <div class="glass-panel max-w-md w-full p-8 rounded-2xl gold-glow space-y-6">
+        <div class="text-center space-y-2">
+          <div class="w-14 h-14 bg-gold-500/10 rounded-full flex items-center justify-center text-gold-400 mx-auto border border-gold-500/20">
+            <span class="material-symbols-outlined text-2xl">security</span>
+          </div>
+          <h3 class="font-cinzel text-xl text-gradient-gold font-bold uppercase tracking-wider">Admin Login</h3>
+          <p class="text-xs text-stone-400">ড্যাশবোর্ড অ্যাক্সেস করতে আপনার পাসওয়ার্ড দিন</p>
+        </div>
+        
+        <form id="form-admin-passcode" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-stone-300 mb-1.5" for="admin-email">ইমেইল এড্রেস</label>
+            <input id="admin-email" type="email" placeholder="example@email.com" required class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 text-stone-300 focus:outline-none focus:border-gold-400/50 transition-all text-xs">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-300 mb-1.5" for="admin-password">পাসওয়ার্ড</label>
+            <input id="admin-password" type="password" placeholder="••••••••" required class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 text-stone-300 focus:outline-none focus:border-gold-400/50 transition-all font-mono text-xs">
+          </div>
+          <p id="login-error-msg" class="text-xs text-red-400 text-center font-medium hidden">ভুল পাসওয়ার্ড। আবার চেষ্টা করুন।</p>
+          
+          <button type="submit" id="btn-login-submit" class="w-full bg-gradient-gold text-stone-950 font-bold text-xs py-3.5 rounded-lg hover:opacity-90 transition-all shadow-lg shadow-gold-500/10 uppercase tracking-widest">
+            লগইন করুন
+          </button>
+        </form>
+
+        <!-- REGISTER FORM (Visible only if no admin exists) -->
+        <form id="form-admin-register" class="space-y-4 hidden">
+          <div>
+            <label class="block text-xs font-semibold text-stone-300 mb-1.5" for="register-email">ইমেইল এড্রেস</label>
+            <input id="register-email" type="email" placeholder="example@email.com" required class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 text-stone-300 focus:outline-none focus:border-gold-400/50 transition-all text-xs">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-300 mb-1.5" for="register-password">পাসওয়ার্ড</label>
+            <input id="register-password" type="password" placeholder="••••••••" required class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 text-stone-300 focus:outline-none focus:border-gold-400/50 transition-all font-mono text-xs">
+          </div>
+          <p id="register-error-msg" class="text-xs text-red-400 text-center font-medium hidden">নিবন্ধন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।</p>
+          
+          <button type="submit" id="btn-register-submit" class="w-full bg-gradient-gold text-stone-950 font-bold text-xs py-3.5 rounded-lg hover:opacity-90 transition-all shadow-lg shadow-gold-500/10 uppercase tracking-widest">
+            অ্যাডমিন অ্যাকাউন্ট তৈরি করুন
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 2. DASHBOARD VIEW (Hidden initially) -->
+    <div id="admin-dashboard-content" class="space-y-8 hidden">
+      
+      <!-- Top Section -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/5 pb-6">
+        <div class="flex gap-2 flex-wrap bg-[#161515] p-1.5 rounded-xl border border-white/5">
+          <button id="tab-btn-overview" class="px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all bg-gradient-gold text-stone-950">
+            📊 ওভারভিউ
+          </button>
+          <button id="tab-btn-bookings" class="px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all text-stone-400 hover:text-white">
+            📅 অ্যাপয়েন্টমেন্ট
+          </button>
+          <button id="tab-btn-reviews" class="px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all text-stone-400 hover:text-white">
+            ⭐ রিভিউ
+          </button>
+        </div>
+        
+        <div class="flex items-center gap-3">
+          <button onclick="loadDashboardData()" class="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-stone-300 transition-all flex items-center justify-center" title="রিফ্রেশ ডেটা">
+            <span class="material-symbols-outlined text-lg">refresh</span>
+          </button>
+          <div class="text-xs text-stone-400 bg-green-500/5 border border-green-500/10 px-3 py-1.5 rounded-lg flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <span>সুপাবেস লাইভ ডেটাবেস সংযুক্ত</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 0: OVERVIEW -->
+      <div id="admin-overview-tab" class="space-y-8">
+        <!-- Stat Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <!-- Stat Card 1 -->
+          <div class="glass-panel p-6 rounded-2xl flex items-center justify-between">
+            <div>
+              <p class="text-xs text-stone-400 font-semibold uppercase tracking-wider">মোট বুকিং</p>
+              <h3 class="text-2xl font-bold text-gradient-gold mt-1" id="stat-total-bookings">০</h3>
+            </div>
+            <div class="w-11 h-11 bg-gold-500/10 rounded-xl flex items-center justify-center text-gold-400 border border-gold-500/20">
+              <span class="material-symbols-outlined">menu_book</span>
+            </div>
+          </div>
+          <!-- Stat Card 2 -->
+          <div class="glass-panel p-6 rounded-2xl flex items-center justify-between">
+            <div>
+              <p class="text-xs text-stone-400 font-semibold uppercase tracking-wider">মুলতুবি (Pending)</p>
+              <h3 class="text-2xl font-bold text-amber-400 mt-1" id="stat-pending-bookings">০</h3>
+            </div>
+            <div class="w-11 h-11 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-400 border border-amber-500/20">
+              <span class="material-symbols-outlined">schedule</span>
+            </div>
+          </div>
+          <!-- Stat Card 3 -->
+          <div class="glass-panel p-6 rounded-2xl flex items-center justify-between">
+            <div>
+              <p class="text-xs text-stone-400 font-semibold uppercase tracking-wider">নিশ্চিত (Confirmed)</p>
+              <h3 class="text-2xl font-bold text-green-400 mt-1" id="stat-confirmed-bookings">০</h3>
+            </div>
+            <div class="w-11 h-11 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400 border border-green-500/20">
+              <span class="material-symbols-outlined">verified</span>
+            </div>
+          </div>
+          <!-- Stat Card 4 -->
+          <div class="glass-panel p-6 rounded-2xl flex items-center justify-between">
+            <div>
+              <p class="text-xs text-stone-400 font-semibold uppercase tracking-wider">সম্পন্ন (Completed)</p>
+              <h3 class="text-2xl font-bold text-blue-400 mt-1" id="stat-completed-bookings">০</h3>
+            </div>
+            <div class="w-11 h-11 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 border border-blue-500/20">
+              <span class="material-symbols-outlined">check_circle</span>
+            </div>
+          </div>
+          <!-- Stat Card 5 -->
+          <div class="glass-panel p-6 rounded-2xl flex items-center justify-between">
+            <div>
+              <p class="text-xs text-stone-400 font-semibold uppercase tracking-wider">বাতিল (Cancelled)</p>
+              <h3 class="text-2xl font-bold text-red-400 mt-1" id="stat-cancelled-bookings">০</h3>
+            </div>
+            <div class="w-11 h-11 bg-red-500/10 rounded-xl flex items-center justify-center text-red-400 border border-red-500/20">
+              <span class="material-symbols-outlined">block</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Details -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Reviews Summary Card -->
+          <div class="glass-panel p-6 rounded-2xl space-y-4">
+            <h4 class="text-sm font-bold text-gradient-gold flex items-center gap-1.5 uppercase tracking-wide">
+              <span class="material-symbols-outlined text-lg">star</span> রিভিউ সামারি
+            </h4>
+            <div class="space-y-3.5 text-xs text-stone-300">
+              <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                <span class="text-stone-400">মোট গ্রাহক রিভিউ</span>
+                <span class="font-bold" id="stat-total-reviews">০ টি</span>
+              </div>
+              <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                <span class="text-stone-400">অনুমোদিত রিভিউ</span>
+                <span class="font-bold text-green-400" id="stat-approved-reviews">০ টি</span>
+              </div>
+              <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                <span class="text-stone-400">মুলতুবি রিভিউ (Pending)</span>
+                <span class="font-bold text-amber-400" id="stat-pending-reviews">০ টি</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-stone-400">গড় রেটিং স্কোর</span>
+                <span class="font-bold text-gold-400 flex items-center gap-0.5" id="stat-avg-rating">0.0 ⭐</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shortcuts Card -->
+          <div class="glass-panel p-6 rounded-2xl lg:col-span-2 space-y-4">
+            <h4 class="text-sm font-bold text-gradient-gold flex items-center gap-1.5 uppercase tracking-wide">
+              <span class="material-symbols-outlined text-lg">bolt</span> কুইক একশন শর্টকাট
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <button onclick="document.getElementById('tab-btn-bookings').click()" class="bg-white/5 hover:bg-white/10 text-stone-200 py-3.5 px-4 rounded-xl border border-white/5 text-xs text-left flex items-center gap-3 transition-all">
+                <span class="material-symbols-outlined text-gold-400 text-lg">calendar_month</span> অ্যাপয়েন্টমেন্ট তালিকা দেখুন
+              </button>
+              <button onclick="document.getElementById('tab-btn-reviews').click()" class="bg-white/5 hover:bg-white/10 text-stone-200 py-3.5 px-4 rounded-xl border border-white/5 text-xs text-left flex items-center gap-3 transition-all">
+                <span class="material-symbols-outlined text-gold-400 text-lg">rate_review</span> রিভিউ মডারেট করুন
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 1: BOOKINGS LIST -->
+      <div id="admin-bookings-tab" class="space-y-6 hidden">
+        <!-- Controls Bar -->
+        <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between bg-[#161515] p-4 rounded-2xl border border-white/5">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-xs text-stone-400 font-semibold mr-1">ফিল্টার:</span>
+            <button data-filter="all" class="booking-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gold-400 text-stone-950 transition-all">সব</button>
+            <button data-filter="Pending" class="booking-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-stone-400 hover:text-white transition-all">Pending</button>
+            <button data-filter="Confirmed" class="booking-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-stone-400 hover:text-white transition-all">Confirmed</button>
+            <button data-filter="Completed" class="booking-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-stone-400 hover:text-white transition-all">Completed</button>
+            <button data-filter="Cancelled" class="booking-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-stone-400 hover:text-white transition-all">Cancelled</button>
+          </div>
+          
+          <div class="flex items-center gap-3 flex-1 lg:max-w-md">
+            <div class="relative flex-1">
+              <span class="material-symbols-outlined text-stone-500 absolute left-3 top-1/2 transform -translate-y-1/2 text-lg">search</span>
+              <input id="booking-search" type="text" placeholder="কাস্টমারের নাম/মোবাইল দিয়ে খুঁজুন..." class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg pl-9 pr-4 py-2 text-xs text-stone-300 focus:outline-none focus:border-gold-400/50">
+            </div>
+            <span id="booking-count-badge" class="text-xs text-stone-400 bg-white/5 px-3 py-2 rounded-lg border border-white/5 shrink-0">বুকিং: ০ টি</span>
+          </div>
+        </div>
+
+        <!-- Grid -->
+        <div id="bookings-manager-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="col-span-full text-center py-16 text-stone-500">
+            <p>লোডিং করা হচ্ছে...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: REVIEWS MODERATION -->
+      <div id="admin-reviews-tab" class="space-y-6 hidden">
+        <!-- Controls Bar -->
+        <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between bg-[#161515] p-4 rounded-2xl border border-white/5">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-xs text-stone-400 font-semibold mr-1">ফিল্টার:</span>
+            <button data-filter-rev="all" class="review-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gold-400 text-stone-950 transition-all">সব</button>
+            <button data-filter-rev="pending" class="review-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-stone-400 hover:text-white transition-all">Pending</button>
+            <button data-filter-rev="approved" class="review-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-stone-400 hover:text-white transition-all">Approved</button>
+            <button data-filter-rev="rejected" class="review-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-stone-400 hover:text-white transition-all">Rejected</button>
+          </div>
+          
+          <div class="flex items-center gap-3 flex-1 lg:max-w-md">
+            <div class="relative flex-1">
+              <span class="material-symbols-outlined text-stone-500 absolute left-3 top-1/2 transform -translate-y-1/2 text-lg">search</span>
+              <input id="review-search" type="text" placeholder="রিভিউ মন্তব্য/নাম দিয়ে খুঁজুন..." class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg pl-9 pr-4 py-2 text-xs text-stone-300 focus:outline-none focus:border-gold-400/50">
+            </div>
+            <span id="review-count-badge" class="text-xs text-stone-400 bg-white/5 px-3 py-2 rounded-lg border border-white/5 shrink-0">রিভিউ: ০ টি</span>
+          </div>
+        </div>
+
+        <!-- Moderation Feed -->
+        <div id="reviews-manager-list" class="space-y-4">
+          <div class="text-center py-16 text-stone-500">
+            <p>লোডিং করা হচ্ছে...</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 py-6 bg-[#0a0a0a] mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-stone-500">
+      <p>© 2024 সত্য নারায়ণ সেলুন. অ্যাডমিন কন্ট্রোল সেন্টার।</p>
+    </div>
+  </footer>
+
+  <!-- Toast Element -->
+  <div id="admin-toast-container" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none space-y-2"></div>
+
+  <!-- Inline Reply Dialog/Modal -->
+  <div id="reply-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-lg w-full p-6 rounded-2xl border border-gold-400/20 space-y-5">
+      <div class="flex justify-between items-center">
+        <h4 class="font-bold text-gradient-gold text-sm uppercase tracking-wide flex items-center gap-1">
+          <span class="material-symbols-outlined">reply</span> রিভিউ উত্তর দিন
+        </h4>
+        <button onclick="closeReplyModal()" class="text-stone-400 hover:text-white p-1">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+      
+      <div class="bg-white/5 p-4 rounded-xl text-xs space-y-1.5 border border-white/5">
+        <p class="font-bold text-gold-400" id="reply-review-user"></p>
+        <p class="text-stone-300 italic" id="reply-review-comment"></p>
+      </div>
+      
+      <div class="space-y-2">
+        <label for="reply-text" class="block text-xs font-semibold text-stone-300">আপনার উত্তর (বাংলায়):</label>
+        <textarea id="reply-text" rows="4" placeholder="আপনার উত্তরটি লিখুন..." class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg p-3 text-xs text-stone-200 focus:outline-none focus:border-gold-400/50 leading-relaxed"></textarea>
+      </div>
+      
+      <div class="flex justify-end gap-3">
+        <button onclick="closeReplyModal()" class="px-4 py-2 rounded-lg text-xs font-bold bg-white/5 hover:bg-white/10 text-stone-300">বাতিল</button>
+        <button id="btn-submit-reply" class="px-4 py-2 rounded-lg text-xs font-bold bg-gradient-gold text-stone-950">উত্তর পাঠান</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

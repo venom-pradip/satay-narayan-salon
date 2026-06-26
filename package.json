@@ -1,0 +1,15 @@
+{
+  "name": "satay-narayan-salon",
+  "version": "1.0.0",
+  "description": "Premium Satya Narayan Salon Portal",
+  "scripts": {
+    "build": "node generate-env.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/venom-pradip/satay-narayan-salon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

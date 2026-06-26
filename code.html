@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+
+<html class="dark scroll-smooth" lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>সত্য নারায়ণ সেলুন - Crafted for the Modern Gentleman</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;family=Noto+Serif+Bengali:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+
+<!-- Supabase client JS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src=".env.js"></script>
+<script src="supabase-client.js"></script>
+
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-container": "#474746",
+                        "on-primary-fixed": "#1c1b1b",
+                        "on-tertiary-fixed-variant": "#484645",
+                        "background": "#141313",
+                        "on-tertiary-fixed": "#1d1b1a",
+                        "on-secondary-fixed-variant": "#474746",
+                        "surface-container-highest": "#353434",
+                        "on-error-container": "#ffdad6",
+                        "outline": "#8e9192",
+                        "on-surface": "#e5e2e1",
+                        "surface-dim": "#141313",
+                        "on-tertiary-container": "#7d7a78",
+                        "outline-variant": "#444748",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-primary-fixed-variant": "#474646",
+                        "surface-container-low": "#1c1b1b",
+                        "on-secondary": "#313030",
+                        "primary-fixed-dim": "#c9c6c5",
+                        "tertiary": "#cac6c3",
+                        "primary": "#c9c6c5",
+                        "surface-bright": "#3a3939",
+                        "on-surface-variant": "#c4c7c7",
+                        "on-secondary-container": "#b7b5b4",
+                        "secondary": "#c8c6c5",
+                        "on-error": "#690005",
+                        "tertiary-fixed-dim": "#cac6c3",
+                        "surface-variant": "#353434",
+                        "inverse-primary": "#5f5e5e",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-on-surface": "#313030",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#2b2a2a",
+                        "surface-tint": "#c9c6c5",
+                        "surface": "#141313",
+                        "primary-fixed": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "primary-container": "#0d0d0d",
+                        "on-primary-container": "#7c7a7a",
+                        "tertiary-fixed": "#e6e1df",
+                        "secondary-fixed": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "on-background": "#e5e2e1",
+                        "tertiary-container": "#0e0d0c",
+                        "on-tertiary": "#32302f",
+                        "surface-container": "#201f1f",
+                        "on-primary": "#313030",
+                        "gold": {
+                            400: "#D4AF37",
+                            500: "#AA8222"
+                        }
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "container-max": "1200px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "unit": "8px"
+                    },
+                    fontFamily: {
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-sm": ["Noto Serif Bengali"],
+                        "button": ["Hanken Grotesk"],
+                        "headline-md": ["Noto Serif Bengali"],
+                        "display-lg-mobile": ["Noto Serif Bengali"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "display-lg": ["Noto Serif Bengali"]
+                    },
+                    fontSize: {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "button": ["16px", { "lineHeight": "24px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "44px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 0.5px solid rgba(212, 175, 55, 0.1);
+        }
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA8222 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-gradient-gold {
+            background: linear-gradient(135deg, #D4AF37 0%, #AA8222 100%);
+        }
+        .border-gradient-gold {
+            border-image: linear-gradient(135deg, #D4AF37, transparent) 1;
+        }
+        .ambient-glow {
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.05);
+        }
+        
+        /* Custom form styling */
+        select option {
+            background-color: #1c1b1b;
+            color: #e5e2e1;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) sepia(1) saturate(5) hue-rotate(175deg);
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-gold-500/30 selection:text-white antialiased">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-3xl border-b border-primary/10 shadow-sm transition-all duration-300" id="navbar">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<a class="font-headline-md text-headline-md-mobile md:text-headline-md text-gradient-gold" href="#">
+                সত্য নারায়ণ সেলুন
+            </a>
+<!-- Desktop Nav -->
+<div class="hidden md:flex items-center space-x-8">
+<a class="font-body-md text-body-md uppercase tracking-widest text-primary border-b-2 border-gold-400 pb-1 hover:opacity-80 transition-opacity" href="#home">Home</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300 hover:opacity-80" href="#services">Services</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300 hover:opacity-80" href="#about">About</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300 hover:opacity-80" href="#gallery">Gallery</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300 hover:opacity-80" href="#contact">Contact</a>
+<a class="bg-gradient-gold text-background font-button text-button px-6 py-2 rounded-sm hover:opacity-90 transition-opacity flex items-center gap-2" href="#booking">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+                    Book Now
+                </a>
+</div>
+<!-- Mobile Menu Button -->
+<button aria-label="Toggle Menu" class="md:hidden text-primary p-2">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</div>
+</nav>
+<main>
+<!-- 1. Hero Section -->
+<section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden" id="home">
+<!-- Video Placeholder Background -->
+<div class="absolute inset-0 z-0">
+<div class="bg-cover bg-center w-full h-full opacity-40" data-alt="A cinematic, slow-motion shot of a high-end barbershop interior. Warm, masculine lighting with deep shadows. A barber is carefully preparing tools. The scene evokes luxury, precision, and tranquility. Deep charcoal tones and soft golden highlights. 8k resolution, photorealistic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCiijiesqbNF8k8NGgIAVaaCt8EpkDbLUaO5bbabQ_KVJLR8I619YyBqG93QRZxn_2RISYSaONvcJnlInWYuvEcKIYfpCVKDSbICGPtsKnpI7WqGCiZDL-Y3-jRNzOoJ0yD7P6zqu1lIIu_Ep26DgxypPD2x2d7zWnlCY__Fao7YEO4n0GVuB-cQq-cHJQ_ZtbW8Vgrl9HGcrd0ABHkTTJZiRVarPycZaxQx7CwZqpsCW3Z0M2cCiSYuA')"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background"></div>
+</div>
+<div class="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto mt-20">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-gradient-gold mb-6 animate-fade-in-up">
+                    সত্য নারায়ণ সেলুন
+                </h1>
+<p class="font-headline-sm text-headline-sm text-on-surface-variant mb-12 tracking-wide font-light">
+                    আপনার স্টাইল, আমাদের দায়িত্ব
+                </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<a class="w-full sm:w-auto bg-gradient-gold text-background font-button text-button px-8 py-4 rounded-sm hover:opacity-90 transition-all transform hover:scale-105 flex items-center justify-center gap-2" href="tel:9647104864">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">call</span>
+                        এখনই ফোন করুন
+                    </a>
+<a class="w-full sm:w-auto glass-panel text-primary font-button text-button px-8 py-4 rounded-sm hover:bg-surface-container-high transition-all flex items-center justify-center gap-2" href="https://wa.me/919647104864">
+<span class="material-symbols-outlined">chat</span>
+                        WhatsApp করুন
+                    </a>
+<a class="w-full sm:w-auto border border-gold-400/50 text-gold-400 font-button text-button px-8 py-4 rounded-sm hover:bg-gold-400/10 transition-all flex items-center justify-center gap-2" href="#booking">
+<span class="material-symbols-outlined">event_available</span>
+                        অ্যাপয়েন্টমেন্ট বুক করুন
+                    </a>
+</div>
+</div>
+</section><section class="py-24 bg-background relative overflow-hidden" id="about">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<!-- Image Column -->
+<div class="relative">
+<div class="aspect-[4/5] rounded-2xl overflow-hidden border border-gold-400/20 shadow-2xl">
+<img alt="দেবব্রত মান্না" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_MqJMNFsXN-Kpc64VCqAeTtbJEi8H7isrGHFHyHmCvV4VYIGs572dOde_ErpaJAf8JB_wENiwHvwppOcE2JkHiMzuciGuHMQdzTk5Tow00NBtNimusBRfZ8AOBf4RYkwFI0T_cA10jqY3hS5jgkse4J2v-J3RugghIcwOJiSbpO9Ajf92cDoZmRl-6clN2XWlG9Ij7PpVxXRmwYumY1WUJDrzSpfqK7W5MWWGiRFSzy224CSPOm5cpD3cDPW0dC37wP0"/>
+</div>
+<!-- Secondary Image Overlay -->
+<div class="absolute -bottom-8 -right-8 w-1/2 aspect-square rounded-2xl overflow-hidden border-4 border-background shadow-2xl hidden md:block">
+<img alt="দেবব্রত মান্না কর্মব্যস্ত" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUxQodyyyhnfxqyZ_rmLV3FPDIA5FbWnIKEGCFQdHeEj8WTc5TqGTmjHdpN2h9Hb6zgPoT_qbKma-W1yESGCC_U04PfP-RZMg6FKGpqid_hoyKiibkWQGzCrC-Qp-EPJADVAtzGZ1onLm0XBlp0jQ8wOb7EF5WxE1HOdy0vC0gkrIiplrRiue8GuxxFgytv2cTnTEm4BjNHyZGhvBlr4fL-PV-PcC_kXfB2HGBE11TYVztk7GhhEobMmNQ2OZWWWBUeIE"/>
+</div>
+</div>
+<!-- Content Column -->
+<div class="space-y-8">
+<div>
+<h2 class="font-headline-md text-headline-md text-gradient-gold mb-2">আমাদের কথা</h2>
+<h3 class="font-display-lg-mobile md:text-headline-md text-on-surface">দেবব্রত মান্না</h3>
+<div class="w-16 h-1 bg-gradient-gold mt-4"></div>
+</div>
+<div class="space-y-6 text-on-surface-variant font-body-md text-lg leading-relaxed">
+<p class="">
+                        দীর্ঘ ৩০ বছরেরও বেশি সময় ধরে দেবব্রত মান্না পুরুষদের গ্রুমিং এবং স্টাইলিস্ট হিসেবে এক অনন্য নাম। তাঁর নিপুণ হাতের ছোঁয়ায় এবং অভিজ্ঞতার মেলবন্ধনে সত্য নারায়ণ সেলুন আজ এক বিশ্বস্ত প্রতিষ্ঠানে পরিণত হয়েছে।
+                    </p>
+<p class="">
+                        আমরা বিশ্বাস করি যে প্রতিটি চুল কাটা কেবল একটি পরিষেবা নয়, বরং এটি আপনার ব্যক্তিত্বের বহিঃপ্রকাশ। গুণমান এবং গ্রাহক সন্তুষ্টিই আমাদের মূল লক্ষ্য।
+                    </p>
+</div>
+<!-- Highlights -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
+<div class="glass-panel p-4 rounded-xl text-center">
+<span class="material-symbols-outlined text-gold-400 mb-2">history</span>
+<p class="text-sm font-button text-on-surface">৩০+ বছরের অভিজ্ঞতা</p>
+</div>
+<div class="glass-panel p-4 rounded-xl text-center">
+<span class="material-symbols-outlined text-gold-400 mb-2">star</span>
+<p class="text-sm font-button text-on-surface">উন্নত পরিষেবা</p>
+</div>
+<div class="glass-panel p-4 rounded-xl text-center">
+<span class="material-symbols-outlined text-gold-400 mb-2">clean_hands</span>
+<p class="text-sm font-button text-on-surface">পরিচ্ছন্ন পরিবেশ</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Services Section -->
+<section class="py-24 bg-surface-dim relative" id="services">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+<div class="text-center mb-16">
+<h2 class="font-headline-md text-headline-md text-gradient-gold mb-4">আমাদের পরিসেবা</h2>
+<div class="w-24 h-1 bg-gradient-gold mx-auto opacity-50"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Service Cards Array -->
+<div class="glass-panel p-8 rounded-2xl group hover:border-gold-400/50 transition-colors duration-500 ambient-glow">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-gold-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">content_cut</span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface mb-2">সাধারণ চুল কাটা</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Classic Haircut</p>
+</div>
+<div class="glass-panel p-8 rounded-2xl group hover:border-gold-400/50 transition-colors duration-500 ambient-glow">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-gold-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">face_retouching_natural</span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface mb-2">স্টাইলিশ চুল কাটা</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Stylish Haircut</p>
+</div>
+<div class="glass-panel p-8 rounded-2xl group hover:border-gold-400/50 transition-colors duration-500 ambient-glow">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-gold-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">auto_fix_high</span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface mb-2">আধুনিক ডিজাইনের চুল কাটা</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Modern Design Haircut</p>
+</div>
+<div class="glass-panel p-8 rounded-2xl group hover:border-gold-400/50 transition-colors duration-500 ambient-glow">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-gold-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">face</span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface mb-2">দাড়ি শেভ</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Beard Shave</p>
+</div>
+<div class="glass-panel p-8 rounded-2xl group hover:border-gold-400/50 transition-colors duration-500 ambient-glow">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-gold-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">brush</span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface mb-2">দাড়ি ট্রিম</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Beard Trim</p>
+</div>
+<div class="glass-panel p-8 rounded-2xl group hover:border-gold-400/50 transition-colors duration-500 ambient-glow">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-gold-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">format_paint</span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface mb-2">চুলে রং</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Hair Colour</p>
+</div>
+<div class="glass-panel p-8 rounded-2xl group hover:border-gold-400/50 transition-colors duration-500 ambient-glow">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-gold-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">spa</span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface mb-2">হেড ম্যাসাজ</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Head Massage</p>
+</div>
+<div class="glass-panel p-8 rounded-2xl group hover:border-gold-400/50 transition-colors duration-500 ambient-glow">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-gold-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">self_care</span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface mb-2">ফেসিয়াল</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Facial</p>
+</div>
+<div class="glass-panel p-8 rounded-2xl group hover:border-gold-400/50 transition-colors duration-500 ambient-glow">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-gold-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">masks</span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface mb-2">D-Tan Pack</h3>
+<p class="text-on-surface-variant font-body-md text-sm">D-Tan Pack</p>
+</div>
+<div class="glass-panel p-8 rounded-2xl group hover:border-gold-400/50 transition-colors duration-500 ambient-glow">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-gold-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">wash</span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface mb-2">Clean Up</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Clean Up</p>
+</div>
+<div class="glass-panel p-8 rounded-2xl group hover:border-gold-400/50 transition-colors duration-500 ambient-glow">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-6 text-gold-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">water_drop</span>
+</div>
+<h3 class="font-headline-sm text-[20px] text-on-surface mb-2">Face Wash Treatment</h3>
+<p class="text-on-surface-variant font-body-md text-sm">Face Wash Treatment</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Gallery Section -->
+<section class="py-24 bg-background relative overflow-hidden" id="gallery">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+    <div class="text-center mb-16">
+      <h2 class="font-headline-md text-headline-md text-gradient-gold mb-4">আমাদের গ্যালারি</h2>
+      <div class="w-24 h-1 bg-gradient-gold mx-auto opacity-50"></div>
+      <p class="mt-6 text-on-surface-variant font-body-md max-w-2xl mx-auto">আমাদের নিখুঁত কাজের কিছু চিত্র রূপ। প্রতিটি সার্ভিস আমাদের যত্ন ও দক্ষতার স্বাক্ষর।</p>
+    </div>
+    
+    <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Dynamic gallery items loaded from Supabase -->
+    </div>
+  </div>
+</section>
+
+<!-- 4. Appointment Booking Section -->
+<section class="py-24 bg-background relative" id="booking">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+<div class="text-center mb-16">
+<h2 class="font-headline-md text-headline-md text-gradient-gold mb-4">অ্যাপয়েন্টমেন্ট বুক করুন</h2>
+<div class="w-24 h-1 bg-gradient-gold mx-auto opacity-50"></div>
+<p class="mt-6 text-on-surface-variant font-body-md max-w-2xl mx-auto">আপনার সুবিধামত সময় বেছে নিয়ে অগ্রিম বুকিং করুন। আমরা আপনার জন্য অপেক্ষা করছি।</p>
+</div>
+<div class="max-w-3xl mx-auto glass-panel p-8 md:p-12 rounded-2xl ambient-glow border-gold-400/20">
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-md text-on-surface mb-2" for="name">নাম</label>
+<input class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all" id="name" name="name" placeholder="আপনার নাম লিখুন" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-on-surface mb-2" for="phone">ফোন নম্বর</label>
+<input class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all" id="phone" name="phone" placeholder="আপনার ফোন নম্বর" type="tel"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-on-surface mb-2" for="service">সেবা নির্বাচন করুন</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-3 text-on-surface appearance-none focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all cursor-pointer" id="service" name="service">
+<option disabled="" selected="" value="">সেবা বেছে নিন...</option>
+<option value="haircut">সাধারণ চুল কাটা</option>
+<option value="styling">স্টাইলিশ চুল কাটা</option>
+<option value="shave">দাড়ি শেভ ও ট্রিম</option>
+<option value="combo">চুল কাটা ও দাড়ি শেভ</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gold-400">
+<span class="material-symbols-outlined">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-md text-on-surface mb-2" for="date">পছন্দের তারিখ</label>
+<input class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all cursor-pointer" id="date" name="date" type="date"/>
+</div>
+<div>
+<label class="block font-label-md text-on-surface mb-2" for="time">পছন্দের সময়</label>
+<input class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all cursor-pointer" id="time" name="time" type="time"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-on-surface mb-2" for="booking-message">বার্তা বা বিশেষ অনুরোধ (ঐচ্ছিক)</label>
+<textarea class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-3 text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 transition-all resize-none" id="booking-message" name="message" placeholder="আপনার কোনো বিশেষ অনুরোধ থাকলে এখানে লিখুন..." rows="3"></textarea>
+</div>
+<div class="pt-4">
+<button id="btn-submit-booking" class="w-full bg-gradient-gold text-background font-button text-button px-8 py-4 rounded-lg hover:opacity-90 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg shadow-gold-500/20" type="button">
+<span class="material-symbols-outlined">check_circle</span>
+                        বুকিং নিশ্চিত করুন
+                    </button>
+</div>
+</form>
+</div>
+</div>
+</section>
+<!-- 5. Contact & Business Hours Section -->
+<section class="py-24 bg-surface-dim relative" id="contact">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+<!-- Contact Info -->
+<div class="space-y-10">
+<div>
+<h2 class="font-headline-md text-headline-md text-gradient-gold mb-4">যোগাযোগ করুন</h2>
+<div class="w-16 h-1 bg-gradient-gold opacity-50 mb-8"></div>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-gold-400 shrink-0">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface-variant mb-1 uppercase tracking-wider text-sm">প্রোপ্রাইটর</h4>
+<p class="font-headline-sm text-lg text-on-surface">দেবব্রত মান্না</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-gold-400 shrink-0">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface-variant mb-1 uppercase tracking-wider text-sm">ফোন ও হোয়াটসঅ্যাপ</h4>
+<a class="block font-headline-sm text-lg text-on-surface hover:text-gold-400 transition-colors" href="tel:9647104864">9647104864</a>
+<a class="block font-body-md text-sm text-on-surface-variant hover:text-green-500 transition-colors mt-1" href="https://wa.me/919647104864">WhatsApp-এ মেসেজ করুন</a>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-gold-400 shrink-0">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface-variant mb-1 uppercase tracking-wider text-sm">ঠিকানা</h4>
+<p class="font-body-md text-on-surface leading-relaxed">
+                                    Bargoda, Near Bargoda Tarun Sangha Club,<br/>
+                                    Tamluk, Purba Medinipur,<br/>
+                                    West Bengal, 721652.
+                                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Business Hours & Map -->
+<div class="space-y-10">
+<div class="glass-panel p-8 rounded-2xl border-gold-400/20">
+<h3 class="font-headline-sm text-2xl text-gradient-gold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">schedule</span>
+                        খোলার সময়সূচি
+                    </h3>
+<ul class="space-y-4 font-body-md text-on-surface">
+<li class="flex justify-between items-center border-b border-primary/10 pb-3">
+<span class="font-medium">সোমবার – রবিবার</span>
+<span class="text-right">৬:৩০ সকাল – ২:০০ দুপুর<br/>৪:০০ বিকাল – ৯:০০ রাত</span>
+</li>
+</ul>
+<div class="mt-6 p-4 bg-surface-container-lowest rounded-lg border border-red-900/30 flex items-start gap-3">
+<span class="material-symbols-outlined text-red-400 shrink-0 mt-0.5">info</span>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+<strong class="text-on-surface">বিশেষ দ্রষ্টব্য:</strong> মঙ্গলবার ও শনিবার বিকাল বন্ধ। অমাবস্যা ও পূর্ণিমা সারাদিন সেলুন সম্পূর্ণ বন্ধ থাকে।
+                        </p>
+</div>
+</div>
+<!-- Map Placeholder -->
+<div class="relative rounded-2xl overflow-hidden border border-gold-400/20 shadow-lg group">
+<div class="aspect-[16/9] w-full bg-surface-container-lowest flex items-center justify-center relative">
+<div class="absolute inset-0 bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=Tamluk,West+Bengal&amp;zoom=14&amp;size=800x400&amp;maptype=roadmap&amp;style=feature:all|element:labels.text.fill|color:0x8e8e8e&amp;style=feature:all|element:labels.text.stroke|color:0x212121&amp;style=feature:all|element:labels.icon|visibility:off&amp;style=feature:administrative|element:geometry.fill|color:0x212121&amp;style=feature:administrative|element:geometry.stroke|color:0x4d4d4d&amp;style=feature:landscape|element:geometry.fill|color:0x212121&amp;style=feature:poi|element:geometry.fill|color:0x212121&amp;style=feature:road.highway|element:geometry.fill|color:0x3a3939&amp;style=feature:road.highway|element:geometry.stroke|color:0x3a3939&amp;style=feature:road.arterial|element:geometry.fill|color:0x3a3939&amp;style=feature:road.local|element:geometry.fill|color:0x212121&amp;style=feature:transit|element:geometry.fill|color:0x212121&amp;style=feature:water|element:geometry.fill|color:0x1a1a1a&amp;key=YOUR_API_KEY')] bg-cover bg-center opacity-30 grayscale mix-blend-luminosity transition-all duration-700 group-hover:opacity-50"></div>
+<div class="absolute inset-0 bg-background/60"></div>
+<div class="relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-5xl text-gold-400 mb-4 animate-bounce">location_on</span>
+<a class="bg-background/80 backdrop-blur-sm border border-gold-400 text-gold-400 font-button text-button px-6 py-3 rounded-full hover:bg-gold-400 hover:text-background transition-all flex items-center gap-2 shadow-xl" href="https://maps.google.com/?q=Bargoda+Tamluk+West+Bengal+721652" rel="noopener noreferrer" target="_blank">
+                                📍 Google Map খুলুন
+                            </a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<!-- Reviews Section -->
+<section class="py-24 bg-background relative overflow-hidden" id="reviews">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+    
+    <!-- Section Title with Admin Option -->
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-16 border-b border-white/5 pb-8">
+      <div class="text-center md:text-left">
+        <h2 class="font-headline-md text-headline-md text-gradient-gold mb-2">গ্রাহকদের মতামত</h2>
+        <p class="text-on-surface-variant font-body-md text-sm">আপনার মূল্যবান অভিজ্ঞতা আমাদের সাথে শেয়ার করুন</p>
+      </div>
+      <button id="admin-panel-toggle" class="glass-panel text-gold-400 hover:text-gold-500 hover:border-gold-400/30 transition-all px-4 py-2 rounded-lg flex items-center gap-2 text-xs font-label-md">
+        <span class="material-symbols-outlined text-sm">lock</span> অ্যাডমিন প্যানেল
+      </button>
+    </div>
+
+    <!-- Main Layout: Grid structure (Left: Summary & Form, Right: Feed) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Left Side: Summary & Form (Col Span 5) -->
+      <div class="lg:col-span-5 space-y-8">
+        
+        <!-- Rating Summary Metric Card -->
+        <div class="glass-panel p-8 rounded-2xl border border-gold-400/10 ambient-glow space-y-6">
+          <div class="flex items-center justify-between border-b border-white/5 pb-4">
+            <div>
+              <h3 class="font-headline-sm text-3xl font-bold text-on-surface" id="avg-rating-value">0.0</h3>
+              <p class="text-xs text-on-surface-variant font-body-md mt-1" id="total-reviews-count">মোট রিভিউ: ০ টি</p>
+            </div>
+            <div class="text-right">
+              <span class="text-gold-400 text-lg font-bold" id="avg-rating-text">⭐ 0.0/৫</span>
+              <p class="text-[10px] text-on-surface-variant font-label-md uppercase tracking-wider mt-1">গড় রেটিং</p>
+            </div>
+          </div>
+          
+          <!-- Rating Distribution Bars (5 to 1 Star) -->
+          <div class="space-y-3 font-body-md text-sm">
+            <!-- 5 Star -->
+            <div class="flex items-center gap-4">
+              <span class="w-8 text-xs text-on-surface-variant shrink-0 text-right">৫ ★</span>
+              <div class="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+                <div id="bar-fill-5" class="dist-bar-fill h-full bg-gradient-gold w-0"></div>
+              </div>
+              <span id="bar-pct-5" class="w-8 text-xs text-on-surface-variant shrink-0 text-left">0%</span>
+            </div>
+            <!-- 4 Star -->
+            <div class="flex items-center gap-4">
+              <span class="w-8 text-xs text-on-surface-variant shrink-0 text-right">৪ ★</span>
+              <div class="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+                <div id="bar-fill-4" class="dist-bar-fill h-full bg-gradient-gold w-0"></div>
+              </div>
+              <span id="bar-pct-4" class="w-8 text-xs text-on-surface-variant shrink-0 text-left">0%</span>
+            </div>
+            <!-- 3 Star -->
+            <div class="flex items-center gap-4">
+              <span class="w-8 text-xs text-on-surface-variant shrink-0 text-right">৩ ★</span>
+              <div class="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+                <div id="bar-fill-3" class="dist-bar-fill h-full bg-gradient-gold w-0"></div>
+              </div>
+              <span id="bar-pct-3" class="w-8 text-xs text-on-surface-variant shrink-0 text-left">0%</span>
+            </div>
+            <!-- 2 Star -->
+            <div class="flex items-center gap-4">
+              <span class="w-8 text-xs text-on-surface-variant shrink-0 text-right">২ ★</span>
+              <div class="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+                <div id="bar-fill-2" class="dist-bar-fill h-full bg-gradient-gold w-0"></div>
+              </div>
+              <span id="bar-pct-2" class="w-8 text-xs text-on-surface-variant shrink-0 text-left">0%</span>
+            </div>
+            <!-- 1 Star -->
+            <div class="flex items-center gap-4">
+              <span class="w-8 text-xs text-on-surface-variant shrink-0 text-right">১ ★</span>
+              <div class="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+                <div id="bar-fill-1" class="dist-bar-fill h-full bg-gradient-gold w-0"></div>
+              </div>
+              <span id="bar-pct-1" class="w-8 text-xs text-on-surface-variant shrink-0 text-left">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review Submission Widget -->
+        <div class="glass-panel rounded-2xl border border-gold-400/10 ambient-glow overflow-hidden">
+          <!-- Tabs Header -->
+          <div class="grid grid-cols-2 bg-surface-container-lowest border-b border-white/5">
+            <button id="tab-google-form" class="py-4 text-xs font-label-md uppercase tracking-wider transition-all bg-gradient-gold text-background">
+              Google Login
+            </button>
+            <button id="tab-guest-form" class="py-4 text-xs font-label-md uppercase tracking-wider transition-all bg-surface-container-high text-on-surface-variant">
+              Guest Mode
+            </button>
+          </div>
+          
+          <div class="p-6 md:p-8">
+            
+            <!-- Tab 1: Google Login (Option 1) -->
+            <div id="form-google-submit" class="space-y-6">
+              <!-- Logged Out State -->
+              <div id="google-login-state" class="text-center py-6 space-y-4">
+                <span class="material-symbols-outlined text-4xl text-gold-400">lock_open</span>
+                <h4 class="font-headline-sm text-base text-on-surface">গুগল দিয়ে লগইন করে ভেরিফাইড রিভিউ দিন</h4>
+                <p class="text-xs text-on-surface-variant leading-relaxed max-w-xs mx-auto">ভেরিফাইড রিভিউ দিলে আপনার প্রোফাইলে সবুজ রঙের "✔ যাচাইকৃত গ্রাহক" ব্যাজ প্রদর্শিত হবে।</p>
+                <button id="btn-google-login" class="bg-gradient-gold text-background hover:opacity-90 font-button text-xs px-6 py-3 rounded-lg flex items-center justify-center gap-2 mx-auto transition-all shadow-md shadow-gold-500/10">
+                  <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.24 10.285V13.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.859-3.579-7.859-8s3.53-8 7.859-8c2.46 0 4.105 1.025 5.047 1.926l2.427-2.334C17.955 2.192 15.34 1 12.24 1 6.033 1 12.24s5.033 11.24 11.24 11.24c6.478 0 10.793-4.537 10.793-10.984 0-.743-.08-1.302-.178-1.858H12.24z"/></svg>
+                  Google দিয়ে লগইন করুন
+                </button>
+              </div>
+              
+              <!-- Logged In State (Hidden by default) -->
+              <div id="google-review-form-state" class="hidden space-y-5">
+                <div class="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
+                  <img id="logged-user-photo" src="" alt="User Avatar" class="w-10 h-10 rounded-full border border-gold-400/20 shadow-md">
+                  <div class="flex-1 min-w-0">
+                    <h5 class="text-sm font-semibold text-on-surface truncate" id="logged-user-name">-</h5>
+                    <span class="text-[10px] text-green-400 flex items-center gap-1 font-label-md"><span class="material-symbols-outlined text-[10px]">verified</span> যাচাইকৃত গ্রাহক</span>
+                  </div>
+                  <button id="btn-google-logout" class="text-xs text-red-400 hover:text-red-300 font-label-md">লগআউট</button>
+                </div>
+                
+                <div>
+                  <label class="block font-label-md text-xs text-on-surface mb-2">আপনার রেটিং নির্বাচন করুন</label>
+                  <div class="form-rating-stars flex gap-1">
+                    <span class="form-star text-gold-400" data-rating="1">star</span>
+                    <span class="form-star text-gold-400" data-rating="2">star</span>
+                    <span class="form-star text-gold-400" data-rating="3">star</span>
+                    <span class="form-star text-gold-400" data-rating="4">star</span>
+                    <span class="form-star text-gold-400" data-rating="5">star</span>
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block font-label-md text-xs text-on-surface mb-2" for="google-service">পরিষেবা নির্বাচন করুন</label>
+                  <select id="google-service" class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-2.5 text-sm text-on-surface focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 cursor-pointer">
+                    <option disabled selected value="">সেবা বেছে নিন...</option>
+                    <option value="haircut">সাধারণ চুল কাটা</option>
+                    <option value="styling">স্টাইলিশ চুল কাটা</option>
+                    <option value="shave">দাড়ি শেভ ও ট্রিম</option>
+                    <option value="combo">চুল কাটা ও দাড়ি শেভ</option>
+                    <option value="facewash">ফেস ওয়াশ ট্রিটমেন্ট</option>
+                    <option value="haircolour">চুল কালারিং</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label class="block font-label-md text-xs text-on-surface mb-2" for="google-comment">আপনার মতামত</label>
+                  <textarea id="google-comment" rows="3" placeholder="দেবব্রত বাবুর সেবা আপনার কেমন লাগলো তা লিখুন..." class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-2.5 text-sm text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 resize-none"></textarea>
+                </div>
+                
+                <button id="btn-submit-google" class="w-full bg-gradient-gold text-background font-button text-xs py-3 rounded-lg hover:opacity-90 transition-all font-semibold flex items-center justify-center gap-1.5 shadow-lg shadow-gold-500/10">
+                  <span class="material-symbols-outlined text-sm">send</span> রিভিউ জমা দিন
+                </button>
+              </div>
+            </div>
+            
+            <!-- Tab 2: Guest Mode Form (Option 2) (Hidden by default) -->
+            <div id="form-guest-submit" class="hidden space-y-5">
+              <div>
+                <label class="block font-label-md text-xs text-on-surface mb-2" for="guest-name">আপনার নাম</label>
+                <input id="guest-name" type="text" placeholder="আপনার নাম লিখুন" class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-2.5 text-sm text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400">
+              </div>
+              
+              <div>
+                <label class="block font-label-md text-xs text-on-surface mb-2" for="guest-service">পরিষেবা নির্বাচন করুন</label>
+                <select id="guest-service" class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-2.5 text-sm text-on-surface focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 cursor-pointer">
+                  <option disabled selected value="">সেবা বেছে নিন...</option>
+                  <option value="haircut">সাধারণ চুল কাটা</option>
+                  <option value="styling">স্টাইলিশ চুল কাটা</option>
+                  <option value="shave">দাড়ি শেভ ও ট্রিম</option>
+                  <option value="combo">চুল কাটা ও দাড়ি শেভ</option>
+                  <option value="facewash">ফেস ওয়াশ ট্রিটমেন্ট</option>
+                  <option value="haircolour">চুল কালারিং</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block font-label-md text-xs text-on-surface mb-2">রেটিং নির্বাচন করুন</label>
+                <div class="form-rating-stars flex gap-1">
+                  <span class="form-star text-gold-400" data-rating="1">star</span>
+                  <span class="form-star text-gold-400" data-rating="2">star</span>
+                  <span class="form-star text-gold-400" data-rating="3">star</span>
+                  <span class="form-star text-gold-400" data-rating="4">star</span>
+                  <span class="form-star text-gold-400" data-rating="5">star</span>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block font-label-md text-xs text-on-surface mb-2" for="guest-comment">আপনার মতামত</label>
+                <textarea id="guest-comment" rows="3" placeholder="আমাদের সেবা সম্পর্কে মতামত দিন..." class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-2.5 text-sm text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 resize-none"></textarea>
+              </div>
+              
+              <div>
+                <label class="block font-label-md text-xs text-on-surface mb-2" for="guest-image">ছবি আপলোড করুন (ঐচ্ছিক)</label>
+                <div class="flex items-center gap-4">
+                  <input id="guest-image" type="file" accept="image/*" class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-3 py-1.5 text-xs text-on-surface-variant focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 cursor-pointer file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-gold-400/20 file:text-gold-400 hover:file:bg-gold-400/30">
+                  <img id="guest-image-preview" src="" alt="Preview" class="w-12 h-12 object-cover rounded border border-white/10 hidden shrink-0">
+                </div>
+                <p class="text-[10px] text-on-surface-variant/50 mt-1">সর্বোচ্চ সাইজ: ২ এমবি (2MB)</p>
+              </div>
+              
+              <button id="btn-submit-guest" class="w-full bg-gradient-gold text-background font-button text-xs py-3 rounded-lg hover:opacity-90 transition-all font-semibold flex items-center justify-center gap-1.5 shadow-lg shadow-gold-500/10">
+                <span class="material-symbols-outlined text-sm">send</span> অতিথি হিসেবে জমা দিন
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Side: Reviews Grid Feed (Col Span 7) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Filters & Sorting Bar -->
+        <div class="flex justify-between items-center gap-4 bg-surface-container p-4 rounded-xl border border-white/5">
+          <h4 class="font-headline-sm text-sm text-on-surface flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-gold-400 text-base">forum</span> গ্রাহক ফিডব্যাক
+          </h4>
+          <div class="flex items-center gap-2">
+            <label for="reviews-sort" class="text-xs text-on-surface-variant font-label-md shrink-0">সাজান:</label>
+            <select id="reviews-sort" class="bg-surface-container-lowest border border-white/10 rounded px-2 py-1 text-xs text-on-surface focus:outline-none focus:border-gold-400 cursor-pointer">
+              <option value="newest">নতুন মতামত</option>
+              <option value="highest">সর্বোচ্চ রেটিং</option>
+              <option value="helpful">সবচেয়ে সহায়ক</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Review Cards Feed -->
+        <div id="reviews-cards-grid" class="grid grid-cols-1 gap-6">
+          <!-- Dynamic cards will be rendered here by reviews.js -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Submission Success Modal Alert -->
+    <div id="submission-success-modal" class="fixed inset-0 z-50 bg-background/70 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="glass-panel max-w-sm w-full p-8 rounded-2xl border border-green-500/20 text-center space-y-6 shadow-2xl">
+        <div class="w-14 h-14 bg-green-500/10 rounded-full flex items-center justify-center text-green-400 mx-auto">
+          <span class="material-symbols-outlined text-3xl">done_all</span>
+        </div>
+        <div class="space-y-2">
+          <h3 class="font-headline-sm text-xl text-green-400">রিভিউ সফলভাবে প্রকাশিত হয়েছে!</h3>
+          <p class="text-sm text-on-surface-variant leading-relaxed">আপনার মূল্যবান রিভিউটি সফলভাবে প্রকাশিত হয়েছে। সত্য নারায়ণ সেলুন বেছে নেওয়ার জন্য আপনাকে ধন্যবাদ!</p>
+        </div>
+        <button id="success-modal-close" class="w-full bg-green-600 hover:bg-green-500 text-white font-button text-sm py-3 rounded-lg transition-all font-semibold">
+          ঠিক আছে
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+<footer class="w-full py-16 px-margin-mobile md:px-margin-desktop bg-surface-container-lowest border-t border-gold-400/10">
+<div class="max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left mb-12">
+<!-- Brand -->
+<div class="space-y-4">
+<a class="font-headline-md text-3xl text-gradient-gold inline-block" href="#">
+                    সত্য নারায়ণ সেলুন
+                </a>
+<p class="text-on-surface-variant font-body-md text-sm max-w-xs mx-auto md:mx-0">
+                    Crafted for the Modern Gentleman. Experience premium grooming and unmatched style.
+                </p>
+</div>
+<!-- Quick Links -->
+<div>
+<h4 class="font-headline-sm text-lg text-on-surface mb-6 uppercase tracking-wider">Quick Links</h4>
+<ul class="space-y-3 font-body-md">
+<li><a class="text-on-surface-variant hover:text-gold-400 transition-colors inline-flex items-center gap-2" href="#home"><span class="w-1.5 h-1.5 rounded-full bg-gold-400/50"></span> Home</a></li>
+<li><a class="text-on-surface-variant hover:text-gold-400 transition-colors inline-flex items-center gap-2" href="#services"><span class="w-1.5 h-1.5 rounded-full bg-gold-400/50"></span> Services</a></li>
+<li><a class="text-on-surface-variant hover:text-gold-400 transition-colors inline-flex items-center gap-2" href="#contact"><span class="w-1.5 h-1.5 rounded-full bg-gold-400/50"></span> Contact</a></li>
+</ul>
+</div>
+<!-- Social -->
+<div>
+<h4 class="font-headline-sm text-lg text-on-surface mb-6 uppercase tracking-wider">Connect With Us</h4>
+<div class="flex items-center justify-center md:justify-start gap-4">
+<a aria-label="Facebook" class="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center text-on-surface-variant hover:border-gold-400 hover:text-gold-400 transition-all hover:-translate-y-1 bg-surface-container-high" href="#">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
+</a>
+<a aria-label="Instagram" class="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center text-on-surface-variant hover:border-gold-400 hover:text-gold-400 transition-all hover:-translate-y-1 bg-surface-container-high" href="#">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path></svg>
+</a>
+<a aria-label="WhatsApp" class="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center text-on-surface-variant hover:border-green-500 hover:text-green-500 transition-all hover:-translate-y-1 bg-surface-container-high" href="https://wa.me/919647104864">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M12.031 24c2.617 0 5.176-.84 7.289-2.428l4.437.93-1.34-4.223A11.956 11.956 0 0024 12.03C24 5.412 18.618 0 12.03 0S0 5.412 0 12.03s5.382 12.03 11.97 12.03h.061zm-6.685-6.852l.43-.685A9.974 9.974 0 0112.03 19.97c5.498 0 9.97-4.472 9.97-9.94S17.528 2.09 12.03 2.09c-5.5 0-9.971 4.47-9.971 9.94 0 2.053.645 4.025 1.838 5.688l.453.633-.787 2.478 2.6-1.127zm10.748-4.482c-.595-.298-3.52-1.74-4.066-1.938-.546-.199-.942-.298-1.338.298-.396.596-1.536 1.938-1.883 2.336-.347.398-.694.447-1.29.15-.595-.298-2.511-.926-4.786-2.966-1.77-1.587-2.964-3.548-3.311-4.145-.347-.596-.037-.918.261-1.215.267-.267.595-.696.893-1.043.297-.348.396-.596.595-.993.198-.397.1-.745-.05-1.043-.148-.298-1.338-3.226-1.833-4.417-.482-1.162-.972-1.006-1.338-1.025-.347-.018-.744-.023-1.14-.023-.397 0-1.042.149-1.588.745s-2.081 2.036-2.081 4.965c0 2.929 2.13 5.759 2.427 6.157.297.398 4.195 6.405 10.16 8.977 1.42.613 2.53.98 3.396 1.254 1.425.452 2.72.387 3.743.234 1.146-.172 3.52-1.439 4.016-2.83.496-1.391.496-2.582.347-2.83-.148-.248-.545-.397-1.14-.695z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+<div class="text-center pt-8 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-body-md text-sm text-on-surface-variant">© 2024 সত্য নারায়ণ সেলুন. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<!-- Floating Actions -->
+<div class="fixed bottom-8 right-8 flex flex-col gap-4 z-50">
+<a class="w-14 h-14 bg-surface-container-high rounded-full flex items-center justify-center text-green-500 shadow-lg border border-primary/10 hover:scale-110 transition-transform" href="https://wa.me/919647104864">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">chat</span>
+</a>
+<a class="w-14 h-14 bg-gradient-gold rounded-full flex items-center justify-center text-background shadow-lg hover:scale-110 transition-transform" href="tel:9647104864">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">call</span>
+</a>
+</div>
+  <script src="reviews.js"></script>
+</body></html>

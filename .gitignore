@@ -1,0 +1,11 @@
+# Node dependencies
+node_modules/
+
+# Local env files (optional, but keep it since it's the public client key)
+# .env.js
+
+# IDE / System files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
