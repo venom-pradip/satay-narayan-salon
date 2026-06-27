@@ -3,7 +3,7 @@ const supabaseUrl = window.env ? window.env.SUPABASE_URL : "";
 const supabaseKey = window.env ? window.env.SUPABASE_ANON_KEY : "";
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error("Supabase environment variables are missing! Ensure .env.js is loaded before this script.");
+  console.error("Supabase environment variables are missing! Ensure env.js is loaded before this script.");
 }
 
 // Global Supabase Client instance

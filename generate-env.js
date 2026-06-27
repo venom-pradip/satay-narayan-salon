@@ -12,5 +12,5 @@ window.env = {
 };
 `;
 
-fs.writeFileSync('.env.js', content);
-console.log('Environment configuration .env.js generated successfully.');
+fs.writeFileSync('env.js', content);
+console.log('Environment configuration env.js generated successfully.');
