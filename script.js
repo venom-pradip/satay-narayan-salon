@@ -448,7 +448,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryGrid = document.getElementById('gallery-grid');
     if (!galleryGrid) return;
 
-    if (items.length === 0) {
+    // Filter to show exactly one representative photo for each of the four requested categories
+    const categories = ['haircut', 'hairstyle', 'haircolour', 'facewash'];
+    const uniqueItems = [];
+
+    categories.forEach(cat => {
+      const match = items.find(item => item.category === cat);
+      if (match) {
+        uniqueItems.push(match);
+      }
+    });
+
+    if (uniqueItems.length === 0) {
       galleryGrid.innerHTML = `
         <div class="col-span-full text-center py-12 text-on-surface-variant font-body-md bg-surface-container rounded-xl border border-white/5">
           <p>গ্যালারিতে কোনো ছবি পাওয়া যায়নি।</p>
@@ -458,11 +469,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let html = '';
-    items.forEach(item => {
+    uniqueItems.forEach(item => {
       let categoryLabel = item.category;
       if (categoryLabel === 'haircut') categoryLabel = 'Haircut';
-      else if (categoryLabel === 'hairstyle') categoryLabel = 'Hairstyle';
-      else if (categoryLabel === 'facewash') categoryLabel = 'Face Wash';
+      else if (categoryLabel === 'hairstyle') categoryLabel = 'Beard Shave';
+      else if (categoryLabel === 'facewash') categoryLabel = "Men's Face Wash / Facial";
       else if (categoryLabel === 'haircolour') categoryLabel = 'Hair Colour';
 
       html += `

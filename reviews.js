@@ -5,14 +5,11 @@
 
 // 1. STATE VARIABLES
 let reviewsData = [];
-let currentUser = null; // Stores Google User info { name, photo, email }
 let currentRating = 5; // Default rating for submissions
-let activeFormTab = 'google'; // 'google' or 'guest'
 let guestUploadedImage = null; // Stores Base64 of guest upload
 
 // Initialize Module on Load
 document.addEventListener('DOMContentLoaded', () => {
-  setupSupabaseAuthListener();
   setupUIEventListeners();
   loadAndRenderReviews();
   subscribeRealtimeReviews();
@@ -71,79 +68,10 @@ const compressImage = (file) => {
   });
 };
 
-// 3. AUTHENTICATION & SESSION LISTENER
-const setupSupabaseAuthListener = () => {
-  if (supabaseClient) {
-    supabaseClient.auth.onAuthStateChange((event, session) => {
-      if (session && session.user) {
-        const user = session.user;
-        currentUser = {
-          name: user.user_metadata.full_name || user.email,
-          photo: user.user_metadata.avatar_url || "https://lh3.googleusercontent.com/a/default-user=s120",
-          email: user.email
-        };
-        updateAuthUI(true);
 
-        // Auto-scroll to reviews section on successful OAuth sign-in redirect
-        if (event === 'SIGNED_IN' && (window.location.hash.includes('access_token') || window.location.hash.includes('id_token'))) {
-          const reviewsSection = document.getElementById('reviews');
-          if (reviewsSection) {
-            setTimeout(() => {
-              reviewsSection.scrollIntoView({ behavior: 'smooth' });
-              // Clean up the hash to prevent re-scrolls on page refreshes and hide credentials
-              history.replaceState(null, document.title, window.location.pathname + window.location.search);
-            }, 500);
-          }
-        }
-      } else {
-        currentUser = null;
-        updateAuthUI(false);
-      }
-    });
-  }
-};
 
 // 4. EVENT LISTENERS SETUP
 const setupUIEventListeners = () => {
-  // Form Tabs Toggle
-  const tabGoogle = document.getElementById('tab-google-form');
-  const tabGuest = document.getElementById('tab-guest-form');
-  const formGoogle = document.getElementById('form-google-submit');
-  const formGuest = document.getElementById('form-guest-submit');
-
-  if (tabGoogle && tabGuest) {
-    tabGoogle.addEventListener('click', () => {
-      activeFormTab = 'google';
-      tabGoogle.classList.add('bg-gradient-gold', 'text-background');
-      tabGoogle.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
-      tabGuest.classList.add('bg-surface-container-high', 'text-on-surface-variant');
-      tabGuest.classList.remove('bg-gradient-gold', 'text-background');
-      formGoogle.classList.remove('hidden');
-      formGuest.classList.add('hidden');
-    });
-
-    tabGuest.addEventListener('click', () => {
-      activeFormTab = 'guest';
-      tabGuest.classList.add('bg-gradient-gold', 'text-background');
-      tabGuest.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
-      tabGoogle.classList.add('bg-surface-container-high', 'text-on-surface-variant');
-      tabGoogle.classList.remove('bg-gradient-gold', 'text-background');
-      formGuest.classList.remove('hidden');
-      formGoogle.classList.add('hidden');
-    });
-  }
-
-  // Google Login / Logout
-  const btnGoogleLogin = document.getElementById('btn-google-login');
-  const btnGoogleLogout = document.getElementById('btn-google-logout');
-
-  if (btnGoogleLogin) {
-    btnGoogleLogin.addEventListener('click', loginWithGoogle);
-  }
-  if (btnGoogleLogout) {
-    btnGoogleLogout.addEventListener('click', logoutGoogle);
-  }
-
   // Interactive Rating Stars (Form submissions)
   const starContainers = document.querySelectorAll('.form-rating-stars');
   starContainers.forEach(container => {
@@ -189,12 +117,6 @@ const setupUIEventListeners = () => {
     });
   }
 
-  // Form Submit - Google Review
-  const btnSubmitGoogle = document.getElementById('btn-submit-google');
-  if (btnSubmitGoogle) {
-    btnSubmitGoogle.addEventListener('click', submitGoogleReview);
-  }
-
   // Form Submit - Guest Review
   const btnSubmitGuest = document.getElementById('btn-submit-guest');
   if (btnSubmitGuest) {
@@ -218,56 +140,7 @@ const setupUIEventListeners = () => {
   }
 };
 
-// 5. AUTHENTICATION HANDLERS
-const loginWithGoogle = async () => {
-  if (supabaseClient) {
-    try {
-      const redirectUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-        ? window.location.origin 
-        : 'https://satay-narayan-salon-er25.vercel.app';
-      
-      console.log("Supabase OAuth Redirecting to URL:", redirectUrl);
 
-      const { error } = await supabaseClient.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: redirectUrl
-        }
-      });
-      if (error) throw error;
-    } catch (e) {
-      console.error("Supabase Google Auth Error:", e);
-      alert("গুগল লগইন এই মুহূর্তে উপলব্ধ নয়।");
-    }
-  }
-};
-
-const logoutGoogle = async () => {
-  if (supabaseClient) {
-    await supabaseClient.auth.signOut();
-  }
-  currentUser = null;
-  updateAuthUI(false);
-  showToast("লগআউট সম্পন্ন হয়েছে");
-  loadAndRenderReviews();
-};
-
-const updateAuthUI = (isLoggedIn) => {
-  const loginState = document.getElementById('google-login-state');
-  const formState = document.getElementById('google-review-form-state');
-  const userPhoto = document.getElementById('logged-user-photo');
-  const userName = document.getElementById('logged-user-name');
-
-  if (isLoggedIn && currentUser) {
-    if (loginState) loginState.classList.add('hidden');
-    if (formState) formState.classList.remove('hidden');
-    if (userPhoto) userPhoto.src = currentUser.photo || "https://lh3.googleusercontent.com/a/default-user=s120";
-    if (userName) userName.textContent = currentUser.name;
-  } else {
-    if (loginState) loginState.classList.remove('hidden');
-    if (formState) formState.classList.add('hidden');
-  }
-};
 
 // Stars highlighting helpers
 const highlightStars = (container, rating) => {
@@ -289,44 +162,7 @@ const updateStarsUI = (container, rating) => {
 };
 
 // 6. REVIEW SUBMISSION LOGIC
-const submitGoogleReview = async () => {
-  if (!currentUser) return;
 
-  const serviceSelect = document.getElementById('google-service');
-  const commentText = document.getElementById('google-comment');
-
-  if (!serviceSelect.value) {
-    alert("অনুগ্রহ করে একটি পরিষেবা নির্বাচন করুন।");
-    return;
-  }
-  if (!commentText.value.trim()) {
-    alert("অনুগ্রহ করে আপনার মূল্যবান মতামত লিখুন।");
-    return;
-  }
-
-  const newReview = {
-    name: currentUser.name,
-    verified: true,
-    photo: currentUser.photo,
-    rating: currentRating,
-    service: serviceSelect.options[serviceSelect.selectedIndex].text,
-    comment: commentText.value.trim(),
-    image: null,
-    status: "approved",
-    replies: []
-  };
-
-  const success = await saveReview(newReview);
-  if (success) {
-    // Reset Form
-    serviceSelect.value = "";
-    commentText.value = "";
-    currentRating = 5;
-    updateStarsUI(document.querySelector('#form-google-submit .form-rating-stars'), 5);
-
-    showSuccessModal();
-  }
-};
 
 const submitGuestReview = async () => {
   const guestName = document.getElementById('guest-name');

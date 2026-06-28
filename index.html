@@ -619,79 +619,9 @@
 
           <!-- Review Submission Widget -->
           <div class="glass-panel rounded-2xl border border-gold-400/10 ambient-glow overflow-hidden">
-            <!-- Tabs Header -->
-            <div class="grid grid-cols-2 bg-surface-container-lowest border-b border-white/5">
-              <button id="tab-google-form" class="py-4 text-xs font-label-md uppercase tracking-wider transition-all bg-gradient-gold text-background">
-                Google Login
-              </button>
-              <button id="tab-guest-form" class="py-4 text-xs font-label-md uppercase tracking-wider transition-all bg-surface-container-high text-on-surface-variant">
-                Guest Mode
-              </button>
-            </div>
-            
             <div class="p-6 md:p-8">
-              
-              <!-- Tab 1: Google Login (Option 1) -->
-              <div id="form-google-submit" class="space-y-6">
-                <!-- Logged Out State -->
-                <div id="google-login-state" class="text-center py-6 space-y-4">
-                  <span class="material-symbols-outlined text-4xl text-gold-400">lock_open</span>
-                  <h4 class="font-headline-sm text-base text-on-surface">গুগল দিয়ে লগইন করে ভেরিফাইড রিভিউ দিন</h4>
-                  <p class="text-xs text-on-surface-variant leading-relaxed max-w-xs mx-auto">ভেরিফাইড রিভিউ দিলে আপনার প্রোফাইলে সবুজ রঙের "✔ যাচাইকৃত গ্রাহক" ব্যাজ প্রদর্শিত হবে।</p>
-                  <button id="btn-google-login" class="bg-gradient-gold text-background hover:opacity-90 font-button text-xs px-6 py-3 rounded-lg flex items-center justify-center gap-2 mx-auto transition-all shadow-md shadow-gold-500/10">
-                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.24 10.285V13.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.859-3.579-7.859-8s3.53-8 7.859-8c2.46 0 4.105 1.025 5.047 1.926l2.427-2.334C17.955 2.192 15.34 1 12.24 1 6.033 1 12.24s5.033 11.24 11.24 11.24c6.478 0 10.793-4.537 10.793-10.984 0-.743-.08-1.302-.178-1.858H12.24z"/></svg>
-                    Google দিয়ে লগইন করুন
-                  </button>
-                </div>
-                
-                <!-- Logged In State (Hidden by default) -->
-                <div id="google-review-form-state" class="hidden space-y-5">
-                  <div class="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
-                    <img id="logged-user-photo" src="" alt="User Avatar" class="w-10 h-10 rounded-full border border-gold-400/20 shadow-md">
-                    <div class="flex-1 min-w-0">
-                      <h5 class="text-sm font-semibold text-on-surface truncate" id="logged-user-name">-</h5>
-                      <span class="text-[10px] text-green-400 flex items-center gap-1 font-label-md"><span class="material-symbols-outlined text-[10px]">verified</span> যাচাইকৃত গ্রাহক</span>
-                    </div>
-                    <button id="btn-google-logout" class="text-xs text-red-400 hover:text-red-300 font-label-md">লগআউট</button>
-                  </div>
-                  
-                  <div>
-                    <label class="block font-label-md text-xs text-on-surface mb-2">আপনার রেটিং নির্বাচন করুন</label>
-                    <div class="form-rating-stars flex gap-1">
-                      <span class="form-star text-gold-400" data-rating="1">star</span>
-                      <span class="form-star text-gold-400" data-rating="2">star</span>
-                      <span class="form-star text-gold-400" data-rating="3">star</span>
-                      <span class="form-star text-gold-400" data-rating="4">star</span>
-                      <span class="form-star text-gold-400" data-rating="5">star</span>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label class="block font-label-md text-xs text-on-surface mb-2" for="google-service">পরিষেবা নির্বাচন করুন</label>
-                    <select id="google-service" class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-2.5 text-sm text-on-surface focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 cursor-pointer">
-                      <option disabled selected value="">সেবা বেছে নিন...</option>
-                      <option value="haircut">সাধারণ চুল কাটা</option>
-                      <option value="styling">স্টাইলিশ চুল কাটা</option>
-                      <option value="shave">দাড়ি শেভ ও ট্রিম</option>
-                      <option value="combo">চুল কাটা ও দাড়ি শেভ</option>
-                      <option value="facewash">ফেস ওয়াশ ট্রিটমেন্ট</option>
-                      <option value="haircolour">চুল কালারিং</option>
-                    </select>
-                  </div>
-                  
-                  <div>
-                    <label class="block font-label-md text-xs text-on-surface mb-2" for="google-comment">আপনার মতামত</label>
-                    <textarea id="google-comment" rows="3" placeholder="দেবব্রত বাবুর সেবা আপনার কেমন লাগলো তা লিখুন..." class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-2.5 text-sm text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400 resize-none"></textarea>
-                  </div>
-                  
-                  <button id="btn-submit-google" class="w-full bg-gradient-gold text-background font-button text-xs py-3 rounded-lg hover:opacity-90 transition-all font-semibold flex items-center justify-center gap-1.5 shadow-lg shadow-gold-500/10">
-                    <span class="material-symbols-outlined text-sm">send</span> রিভিউ জমা দিন
-                  </button>
-                </div>
-              </div>
-              
-              <!-- Tab 2: Guest Mode Form (Option 2) (Hidden by default) -->
-              <div id="form-guest-submit" class="hidden space-y-5">
+              <!-- Guest Mode Form -->
+              <div id="form-guest-submit" class="space-y-5">
                 <div>
                   <label class="block font-label-md text-xs text-on-surface mb-2" for="guest-name">আপনার নাম</label>
                   <input id="guest-name" type="text" placeholder="আপনার নাম লিখুন" class="w-full bg-surface-container-lowest border border-primary/20 rounded-lg px-4 py-2.5 text-sm text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-gold-400 focus:ring-1 focus:ring-gold-400">
