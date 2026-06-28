@@ -83,6 +83,18 @@ const setupSupabaseAuthListener = () => {
           email: user.email
         };
         updateAuthUI(true);
+
+        // Auto-scroll to reviews section on successful OAuth sign-in redirect
+        if (event === 'SIGNED_IN' && (window.location.hash.includes('access_token') || window.location.hash.includes('id_token'))) {
+          const reviewsSection = document.getElementById('reviews');
+          if (reviewsSection) {
+            setTimeout(() => {
+              reviewsSection.scrollIntoView({ behavior: 'smooth' });
+              // Clean up the hash to prevent re-scrolls on page refreshes and hide credentials
+              history.replaceState(null, document.title, window.location.pathname + window.location.search);
+            }, 500);
+          }
+        }
       } else {
         currentUser = null;
         updateAuthUI(false);
@@ -213,7 +225,7 @@ const loginWithGoogle = async () => {
       const { error } = await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.href
+          redirectTo: window.location.origin
         }
       });
       if (error) throw error;
