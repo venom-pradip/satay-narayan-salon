@@ -201,7 +201,7 @@ const setupUIEventListeners = () => {
   const adminPanelToggle = document.getElementById('admin-panel-toggle');
   if (adminPanelToggle) {
     adminPanelToggle.addEventListener('click', () => {
-      window.location.href = 'admin/';
+      window.location.href = '/admin/';
     });
   }
 };
