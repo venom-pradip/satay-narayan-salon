@@ -222,10 +222,16 @@ const setupUIEventListeners = () => {
 const loginWithGoogle = async () => {
   if (supabaseClient) {
     try {
+      const redirectUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? window.location.origin 
+        : 'https://satay-narayan-salon-er25.vercel.app';
+      
+      console.log("Supabase OAuth Redirecting to URL:", redirectUrl);
+
       const { error } = await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin
+          redirectTo: redirectUrl
         }
       });
       if (error) throw error;
